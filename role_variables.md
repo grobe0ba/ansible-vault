@@ -2,6 +2,11 @@
 
 The role defines variables in `defaults/main.yml`:
 
+## `vault_use_bao`
+
+- Set this to true if you prefer to use OpenBao instead of Hashicorp Vault
+- Default value: _false_
+
 ## `vault_listener_localhost_enable`
 
 - Set this to true if you enable listen vault on localhost
@@ -15,11 +20,11 @@ The role defines variables in `defaults/main.yml`:
   with a different user.
 - Default value: _false_
 
-## `vault_version`
+## `vault_version`/`bao_version`
 
 - Version to install
-  - Can be overridden with `VAULT_VERSION` environment variable
-  - Will include ".hsm" if vault_enterprise_hsm=True
+  - Can be overridden with `VAULT_VERSION`/`BAO_VERSION` environment variable
+  - Will include ".hsm" if vault_enterprise_hsm=True (Vault only)
 
 - Default value: 1.5.5
 
@@ -30,7 +35,7 @@ The role defines variables in `defaults/main.yml`:
   - Can be overridden with `VAULT_ENTERPRISE` environment variable
 - Default value: _false_
 
-## `vault_pkg`
+## `vault_pkg`/`bao_pkg`
 
 - package filename
 - Default value: `"vault_{{ vault_version }}_linux_amd64.zip"`
@@ -40,14 +45,14 @@ The role defines variables in `defaults/main.yml`:
 - package filename
 - Default value: `"vault-enterprise_{{ vault_version }}_{{ vault_os }}_{{ vault_architecture }}.zip"`
 
-## `vault_zip_url`
+## `vault_zip_url`/`bao_zip_url`
 
 - Package download URL
 - Default value: `"https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"`
 - Override this var if you have your zip hosted internally
 - Works for enterprise installs also
 
-## `vault_checksum_file_url`
+## `vault_checksum_file_url`/`bao_checksum_file_url`
 
 - SHA summaries URL
 - Override this var if you have your sha file is hosted internally
@@ -88,7 +93,7 @@ The role defines variables in `defaults/main.yml`:
 - Set this to `true` will download Vault binary from each target instead of localhost
 - Default value: _false_
 
-## `vault_shasums`
+## `vault_shasums`/`bao_shasums`
 
 - SHA summaries filename (included for convenience not for modification)
 - Default value: `"vault_{{ vault_version }}_SHA256SUMS"`
@@ -1023,7 +1028,7 @@ packages with different naming, so this role was built with support for
 popular Linux distributions and defines these variables to deal with the
 differences across distributions:
 
-## `vault_pkg`
+## `vault_pkg`/`bao_pkg`
 
 - Vault package filename
 - Default value: `{{ vault_version }}_linux_amd64.zip`

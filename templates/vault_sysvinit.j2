@@ -12,7 +12,7 @@
 . /etc/init.d/functions
 {% endif %}
 
-VAULT="{{ vault_bin_path }}/vault"
+VAULT="{{ vault_bin_path }}/{{ vault_executable }}"
 CONFIG="{{ vault_config_path }}"
 PID_FILE=/var/run/vault/vault.pid
 

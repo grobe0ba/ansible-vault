@@ -12,6 +12,11 @@
       paths:
         - vars
 
+- name: Configure role to install OpenBao
+  ansible.builtin.include_tasks: bao.yml
+  when: vault_use_bao == true
+  tags: always
+
 - name: Run preinstall tasks
   ansible.builtin.include_tasks: preinstall.yml
   tags: preinstall
@@ -22,7 +27,7 @@
 
 - name: Check Vault installation
   ansible.builtin.shell:
-    cmd: command -v vault # noqa command-instead-of-shell  # command is a shell builtin
+    cmd: command -v "{{ vault_executable }}" # noqa command-instead-of-shell  # command is a shell builtin
   environment:
     PATH: "{{ vault_bin_path }}:{{ ansible_env.PATH }}"
   register: vault_installation
@@ -59,6 +64,7 @@
     - not vault_install_remotely | bool
     - vault_install_hashi_repo | bool
     - installation_required | bool
+    - not vault_use_bao | bool
 
 - name: Install OS packages and Vault via remote hosts
   ansible.builtin.include_tasks: install_remote.yml
@@ -71,7 +77,7 @@
 - name: Check Vault mlock capability
   become: true
   ansible.builtin.command:
-    cmd: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+    cmd: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/{{ vault_executable }}"
   changed_when: false # read-only task
   ignore_errors: true
   register: vault_mlock_capability
@@ -80,7 +86,7 @@
 - name: Enable non root mlock capability
   become: true
   ansible.builtin.command:
-    cmd: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/vault"
+    cmd: "setcap cap_ipc_lock=+ep {{ vault_bin_path }}/{{ vault_executable }}"
   register: output
   changed_when: output.rc != 0
   when:

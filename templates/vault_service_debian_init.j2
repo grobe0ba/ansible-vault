@@ -14,7 +14,7 @@
 PATH="{{ vault_bin_path }}:/usr/sbin:/usr/bin:/sbin:/bin"
 DESC="Vault secret management tool"
 NAME=vault
-DAEMON="{{ vault_bin_path }}/$NAME"
+DAEMON="{{ vault_bin_path }}/{{ vault_executable }}"
 PIDFILE=/var/run/$NAME/$NAME.pid
 DAEMON_ARGS="server -config={{ vault_config_path if vault_use_config_path else vault_main_config }}"
 USER={{ vault_user }}

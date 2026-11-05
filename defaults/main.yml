@@ -20,11 +20,25 @@ vault_architecture_map:
 vault_architecture: "{{ vault_architecture_map[ansible_architecture] }}"
 vault_os: "{{ ansible_system | lower }}"
 
+
+vault_use_bao: false
+bao_version: "{{ lookup('env', 'BAO_VERSION') | default('2.7.2', true) }}"
+bao_pkg_stub: "openbao_{{ bao_version }}"
+bao_pkg: "{{ bao_pkg_stub }}_{{ vault_os }}_{{ vault_architecture }}.tar.gz"
+bao_shasums: checksums.txt
+bao_url_stub: "https://github.com/openbao/openbao/releases/download/v{{ bao_version }}"
+bao_zip_url: "{{ bao_url_stub }}/{{ bao_pkg }}"
+bao_executable: bao
+
+bao_checksum_file_url: "{{ bao_url_stub }}/{{ bao_shasums }}"
+
 vault_pkg_stub: "vault_{{ vault_version }}{{ vault_version_release_site_suffix }}"
 vault_pkg: "{{ vault_pkg_stub }}_{{ vault_os }}_{{ vault_architecture }}.zip"
 vault_shasums: "{{ vault_pkg_stub }}_SHA256SUMS"
 vault_url_stub: "https://releases.hashicorp.com/vault/{{ vault_version }}{{ vault_version_release_site_suffix }}"
 vault_zip_url: "{{ vault_url_stub }}/{{ vault_pkg }}"
+vault_executable: vault
+
 vault_checksum_file_url: "{{ vault_url_stub }}/{{ vault_shasums }}"
 vault_repository_url: "{{ _vault_repository_url | default() }}"
 vault_repository_key_url: "{{ _vault_repository_key_url | default() }}"
