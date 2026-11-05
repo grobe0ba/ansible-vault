@@ -31,7 +31,7 @@
   ansible.builtin.unarchive:
     src: "{{ role_path }}/files/{{ vault_pkg }}"
     dest: "{{ role_path }}/files/"
-    creates: "{{ role_path }}/files/vault"
+    creates: "{{ role_path }}/files/{{ vault_executable }}"
   become: "{{ vault_privileged_install }}"
   run_once: true
   tags: installation
@@ -40,7 +40,7 @@
 - name: Install Vault
   become: true
   ansible.builtin.copy:
-    src: "{{ role_path }}/files/vault"
+    src: "{{ role_path }}/files/{{ vault_executable }}"
     dest: "{{ vault_bin_path }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"

@@ -1,0 +1,19 @@
+- name: Override variables
+  ansible.builtin.set_fact: {"{{ item.key }}": "{{ item.value }}"}
+  with_items:
+    - key: vault_pkg_stub
+      value: "{{ bao_pkg_stub }}"
+    - key: vault_pkg
+      value: "{{ bao_pkg }}"
+    - key: vault_shasusm
+      value: "{{ bao_shasums }}"
+    - key: vault_url_stub
+      value: "{{ bao_url_stub }}"
+    - key: vault_zip_url
+      value: "{{ bao_zip_url }}"
+    - key: vault_executable
+      value: "{{ bao_executable }}"
+    - key: vault_checksum_file_url
+      value: "{{ bao_checksum_file_url }}"
+  when: vault_use_bao == true
+  tags: always

@@ -88,7 +88,9 @@ listener "tcp" {
   {% include vault_backend_raft with context -%}
 {% endif %}
 
+{% if vault_use_bao == false %}
 disable_mlock = {{ vault_disable_mlock | bool | lower }}
+{% endif %}
 
 {% if vault_service_registration_consul_enable -%}
   {% include vault_service_registration_consul_template with context -%}

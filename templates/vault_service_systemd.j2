@@ -49,9 +49,9 @@ Environment=NO_PROXY={{ vault_no_proxy }}
 Environment={{ _vault_variable_name }}={{ _vault_variable_value }}
 {% endfor -%}
 {% if vault_systemd_use_subshell %}
-ExecStart=/bin/sh -c 'exec {{ vault_bin_path }}/vault server -config={{ vault_config_path if vault_use_config_path else vault_main_config }}'
+ExecStart=/bin/sh -c 'exec {{ vault_bin_path }}/{{ vault_executable }} server -config={{ vault_config_path if vault_use_config_path else vault_main_config }}'
 {% else %}
-ExecStart={{ vault_bin_path }}/vault server -config={{ vault_config_path if vault_use_config_path else vault_main_config }}
+ExecStart={{ vault_bin_path }}/{{ vault_executable }} server -config={{ vault_config_path if vault_use_config_path else vault_main_config }}
 {% endif %}
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
